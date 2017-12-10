@@ -18241,7 +18241,13 @@ class mPDF
 			if ($listitemtype == 'none') {
 				return;
 			}
-			$num = $this->_getStyledNumber($counter, $listitemtype, true);
+
+			// NUMBERING FIX $num = $this->_getStyledNumber($counter, $listitemtype, true);
+			$pre = '';
+			for ($loop = 1; $loop <= $this->listlvl; $loop++) {
+				$pre = $this->listcounter[($this->listlvl+1) - $loop] . '.' . $pre;
+			}
+			$num = substr($pre,0,-1);
 
 			if ($listitemposition == 'inside') {
 				$e = $num . $this->list_number_suffix . $spacer;
