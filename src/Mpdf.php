@@ -17015,7 +17015,13 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 				return;
 			}
 
-			$num = $this->_getStyledNumber($counter, $listitemtype, true);
+			// Nested List Numbering (1. -> 1.1. -> 1.1.1.)
+			$pre = '';
+			for ($loop = 1; $loop <= $this->listlvl; $loop++) {
+				$listCount = $this->listcounter[($this->listlvl + 1) - $loop];
+				$pre = $this->_getStyledNumber($listCount, $listitemtype, true) . '.' . $pre;
+			}
+			$num = substr($pre, 0, -1);
 
 			if ($listitemposition == 'inside') {
 				$e = $num . $this->list_number_suffix . $spacer;
