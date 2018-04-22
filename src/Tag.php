@@ -111,6 +111,13 @@ class Tag
 
 	public function OpenTag($tag, $attr, &$ahtml, &$ihtml)
 	{
+
+		// check if we have a clause title which is less than 50 away from the bottom of the page... not coupled to ws at all. Very clean. Very good. 😂
+		$c = $attr['CLASS'] ?? false;
+		if($c && ($c=="TITLE") && ($this->mpdf->h - $this->mpdf->y) <= 50) {
+			$this->mpdf->AddPage($this->mpdf->CurOrientation);
+		}
+
 		// Correct for tags where HTML5 specifies optional end tags excluding table elements (cf WriteHTML() )
 		if ($this->mpdf->allow_html_optional_endtags) {
 			if (isset($this->mpdf->blk[$this->mpdf->blklvl]['tag'])) {
